@@ -43,6 +43,10 @@ var PVec = (function () {
     }    
     // public interface
     
+    PVec.prototype.clone = function(){
+        return new PVec(this.length, this.shift, this.root, this.tail);
+    }
+    
     PVec.prototype.get = function (i) {
         if (i >= this.length) throw new Error("Index out of bounds. Index :" + i + ", Size:" + this.length);
         if (i >= this.tailOffset()) {
@@ -165,7 +169,9 @@ var PVec = (function () {
         }
         return new PVec(this.length - 1, this.shift, newRoot, node);
     }
-
+    PVec.prototype.asTransient = function () {
+        return new TVec(this.length, this.shift, this.root, this.tail);
+    }
     PVec.prototype.tailOffset = function () {
         return (this.length - 1) & (~MASK);
     }
